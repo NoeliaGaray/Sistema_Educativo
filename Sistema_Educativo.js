@@ -1,42 +1,42 @@
-var Alumnos = /** @class */ (function () {
-    function Alumnos(paramNombre, paramEdad, paramNotaEdFis, paramNotaQuimica, paramNotaMatematica) {
+var Alumno = /** @class */ (function () {
+    function Alumno(paramNombre, paramEdad, paramNotaEdFis, paramNotaQuimica, paramNotaMatematica) {
         this.nombre = paramNombre;
         this.edad = paramEdad;
         this.notaEdFis = paramNotaEdFis;
         this.notaQuimica = paramNotaQuimica;
         this.notaMatematica = paramNotaMatematica;
     }
-    Alumnos.prototype.setNombre = function (nombre) {
+    Alumno.prototype.setNombre = function (nombre) {
         this.nombre = nombre;
     };
-    Alumnos.prototype.getNombre = function () {
+    Alumno.prototype.getNombre = function () {
         return this.nombre;
     };
-    Alumnos.prototype.setEdad = function (edad) {
+    Alumno.prototype.setEdad = function (edad) {
         this.edad = edad;
     };
-    Alumnos.prototype.getEdad = function () {
+    Alumno.prototype.getEdad = function () {
         return this.edad;
     };
-    Alumnos.prototype.setNotaEdFis = function (notaEdFis) {
+    Alumno.prototype.setNotaEdFis = function (notaEdFis) {
         this.notaEdFis = notaEdFis;
     };
-    Alumnos.prototype.getNotaEdFis = function () {
+    Alumno.prototype.getNotaEdFis = function () {
         return this.notaEdFis;
     };
-    Alumnos.prototype.setNotaQuimica = function (notaQuimica) {
+    Alumno.prototype.setNotaQuimica = function (notaQuimica) {
         this.notaQuimica = notaQuimica;
     };
-    Alumnos.prototype.getNotaQuimica = function () {
+    Alumno.prototype.getNotaQuimica = function () {
         return this.notaQuimica;
     };
-    Alumnos.prototype.setNotaMatematica = function (notaMatematica) {
+    Alumno.prototype.setNotaMatematica = function (notaMatematica) {
         this.notaMatematica = notaMatematica;
     };
-    Alumnos.prototype.getNotaMatematica = function () {
+    Alumno.prototype.getNotaMatematica = function () {
         return this.notaMatematica;
     };
-    Alumnos.prototype.AprobadoDesaprobado = function () {
+    Alumno.prototype.aprobadoDesaprobado = function () {
         if ((this.notaMatematica || this.notaEdFis || this.notaQuimica) < 7) {
             return "está desaprobadx";
         }
@@ -45,20 +45,26 @@ var Alumnos = /** @class */ (function () {
             return "está aprobadx";
         }
     };
-    return Alumnos;
+    return Alumno;
 }());
-var Profesores = /** @class */ (function () {
-    function Profesores() {
-        this.NombresAlumnos = ["Lgante", "Tinelli", "Pachano", "Polino", "Flavio"];
-        this.NombresAlumnas = ["Moria", "Reina", "Pampita", "Carmen", "Susana"];
+var Profesor = /** @class */ (function () {
+    function Profesor(paramNombre, paramEdad, paramAlumnos) {
+        this.nombre = paramNombre;
+        this.edad = paramEdad;
+        this.alumnos = paramAlumnos;
     }
-    return Profesores;
+    Profesor.prototype.setNombre = function (nombre) {
+        this.nombre = nombre;
+    };
+    Profesor.prototype.getNombre = function () {
+        return this.nombre;
+    };
+    return Profesor;
 }());
 var Escuela = /** @class */ (function () {
-    function Escuela(paramAlumnos, paramProfesoresClases) {
-        this.profesoresClases = ["prof. Ed.Fisica", "prof.Matematica", "prof.Quimica"];
+    function Escuela(paramAlumnos, paramProfesores) {
         this.alumnos = paramAlumnos;
-        this.profesoresClases = paramProfesoresClases;
+        this.profesores = paramProfesores;
     }
     Escuela.prototype.setAlumnos = function (alumnos) {
         this.alumnos = alumnos;
@@ -66,23 +72,43 @@ var Escuela = /** @class */ (function () {
     Escuela.prototype.getAlumnos = function () {
         return this.alumnos;
     };
-    Escuela.prototype.setProfesoresClases = function (profesoresClases) {
-        this.profesoresClases = profesoresClases;
+    Escuela.prototype.setProfesores = function (profesores) {
+        this.profesores = profesores;
     };
-    Escuela.prototype.getProfesoresClases = function () {
-        return this.profesoresClases;
+    Escuela.prototype.getProfesores = function () {
+        return this.profesores;
     };
-    Escuela.prototype.ContratarDespedir = function () {
+    Escuela.prototype.matricularAlumno = function (alumno) {
+        this.alumnos.push(alumno);
+        console.log(alumno.getNombre(), " Alumno Matriculado.");
     };
-    Escuela.prototype.MatricularExpulsar = function () {
+    Escuela.prototype.expulsarAlumno = function (alumno) {
+        for (var i = 0; i < this.alumnos.length; i++) {
+            if (alumno.getNombre() === this.alumnos[i].getNombre()) {
+                this.alumnos.splice(i, 1);
+                console.log("El alumno ", alumno.getNombre(), " fue expulsado.");
+            }
+        }
+    };
+    Escuela.prototype.contratarProfesor = function (profesor) {
+        this.profesores.push(profesor);
+        console.log(profesor.getNombre(), " Contratado.");
+    };
+    Escuela.prototype.expulsarProfesor = function (profesor) {
+        for (var i = 0; i < this.profesores.length; i++) {
+            if (profesor.getNombre() === this.profesores[i].getNombre()) {
+                this.profesores.splice(i, 1);
+                console.log("El profesor ", profesor.getNombre(), " fue expulsado.");
+            }
+        }
     };
     return Escuela;
 }());
-var alumno1 = new Alumnos("Lgante", 21, 5, 2, 4);
-var alumno2 = new Alumnos("Moria", 55, 8, 7, 9);
-var alumno3 = new Alumnos("Tinelli", 60, 2, 7, 5);
-var alumno4 = new Alumnos("Reina", 76, 9, 8, 9);
-var alumno5 = new Alumnos("Pachano", 82, 10, 2, 6);
-var alumno6 = new Alumnos("Pampita", 32, 3, 6, 4);
-console.log("El alumno", alumno1.getNombre(), "de", alumno1.getEdad(), "años de edad", alumno1.AprobadoDesaprobado(), "con la nota", alumno1.getNotaQuimica());
-console.log("La alumna", alumno2.getNombre(), "de", alumno2.getEdad(), "años de edad", alumno2.AprobadoDesaprobado(), "con la nota", alumno2.getNotaEdFis());
+var alumno1 = new Alumno("Lgante", 21, 5, 2, 4);
+var alumno2 = new Alumno("Moria", 55, 8, 7, 9);
+var alumno3 = new Alumno("Tinelli", 60, 2, 7, 5);
+var alumno4 = new Alumno("Reina", 76, 9, 8, 9);
+var alumno5 = new Alumno("Pachano", 82, 10, 2, 6);
+var alumno6 = new Alumno("Pampita", 32, 3, 6, 4);
+console.log("El alumno", alumno1.getNombre(), "de", alumno1.getEdad(), "años de edad", alumno1.aprobadoDesaprobado(), "con la nota", alumno1.getNotaQuimica(), alumno1);
+console.log("La alumna", alumno2.getNombre(), "de", alumno2.getEdad(), "años de edad", alumno2.aprobadoDesaprobado(), "con la nota", alumno2.getNotaEdFis());
